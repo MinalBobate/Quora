@@ -30,13 +30,13 @@ app.use('/',router)
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
 app.use(express.static(path.join(__dirname, "/..//build")));
 
-app.get("*", (req, res) => {
-  try {
-    res.sendFile(path.join(`${__dirname}/../client/build/index.html`));
-  } catch (e) {
-    res.send("Oops! unexpected error");
-  }
-});
+// app.get("*", (req, res) => {
+//   try {
+//     res.sendFile(path.join(`${__dirname}/../client/build/index.html`));
+//   } catch (e) {
+//     res.send("Oops! unexpected error");
+//   }
+// });
 
 
 
@@ -44,11 +44,12 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-const USERNAME='minalbobate9112';
-const PASSWORD='JobOn15122023';
-// const USERNAME=process.env.DB_USERNAME;
-// const PASSWORD=process.env.DB_PASSWORD;
-Connection(USERNAME,PASSWORD);
+
+const USERNAME=process.env.DB_USERNAME;
+const PASSWORD=process.env.DB_PASSWORD;
+const dbURL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.nuhk8gt.mongodb.net/DB?retryWrites=true&w=majority`
+
+Connection(dbURL);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
